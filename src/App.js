@@ -79,12 +79,20 @@ const App = () => {
     }
 
     const create = (person) => {
-        personServices.create(person).then((createdPerson) => {
-            setPersons(persons.concat(createdPerson))
-            setNewName('')
-            setNewNumber('')
-        })
-        showMessage(`Added ${person.name}`, NOTIFICATION_LEVELS.success)
+        personServices
+            .create(person)
+            .then((createdPerson) => {
+                setPersons(persons.concat(createdPerson))
+                setNewName('')
+                setNewNumber('')
+                showMessage(`Added ${person.name}`, NOTIFICATION_LEVELS.success)
+            })
+            .catch((error) => {
+                showMessage(
+                    error.response.data.error,
+                    NOTIFICATION_LEVELS.error
+                )
+            })
     }
 
     const update = (person, id) => {
