@@ -5,6 +5,7 @@
     border: 2px solid;
     width: 100%;
     max-width: 800px;
+    text-align: center;
 }
 
 .success {
