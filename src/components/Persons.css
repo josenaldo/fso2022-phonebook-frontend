@@ -1,0 +1,21 @@
+table {
+    border: none;
+    min-width: 50%;
+}
+
+.person-name {
+    padding: 10px;
+}
+
+.person-number {
+    padding: 10px;
+    text-align: right;
+}
+
+.person-delete {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #3d4149;
+}
