@@ -61,7 +61,7 @@ const App = () => {
         setMessageTimeout(timeout)
     }
 
-    const createOrUpdate = (event) => {
+    const create = (event) => {
         event.preventDefault()
 
         const person = {
@@ -69,16 +69,6 @@ const App = () => {
             number: newNumber,
         }
 
-        const existingPerson = persons.find((p) => p.name === newName)
-
-        if (existingPerson !== undefined) {
-            update(person, existingPerson.id)
-        } else {
-            create(person)
-        }
-    }
-
-    const create = (person) => {
         personServices
             .create(person)
             .then((createdPerson) => {
@@ -93,31 +83,6 @@ const App = () => {
                     NOTIFICATION_LEVELS.error
                 )
             })
-    }
-
-    const update = (person, id) => {
-        const message = `${person.name} is already added to phonebook, replace the old number with a new one?`
-
-        if (window.confirm(message)) {
-            personServices
-                .update(person, id)
-                .then((updatedPerson) => {
-                    setPersons(
-                        persons.map((p) => (p.id === id ? updatedPerson : p))
-                    )
-                    setNewName('')
-                    setNewNumber('')
-                    showMessage(
-                        `Updated ${person.name}`,
-                        NOTIFICATION_LEVELS.success
-                    )
-                })
-                .catch((error) => {
-                    const message = `Information of ${person.name} has already been removed from server`
-                    showMessage(message, NOTIFICATION_LEVELS.error)
-                    setPersons(persons.filter((p) => p.id !== id))
-                })
-        }
     }
 
     const remove = (id) => {
@@ -153,7 +118,7 @@ const App = () => {
             <h2>Add a new</h2>
 
             <PersonForm
-                onSubmit={createOrUpdate}
+                onSubmit={create}
                 newName={newName}
                 newNumber={newNumber}
                 handleNewNameChange={handleNewNameChange}

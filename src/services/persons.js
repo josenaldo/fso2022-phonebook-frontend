@@ -24,11 +24,19 @@ const update = (person, id) => {
     })
 }
 
+const searchByName = (name) => {
+    return axios.get(`${baseUrl}/search/${name}`).then((response) => {
+        console.log(response.data)
+        return response.data
+    })
+}
+
 const personServices = {
     getAll,
     create,
     remove,
     update,
+    searchByName,
 }
 
 export { personServices }
