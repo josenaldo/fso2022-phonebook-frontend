@@ -61,9 +61,27 @@ const App = () => {
         setMessageTimeout(timeout)
     }
 
-    const create = (event) => {
+    const createOrUpdate = (event) => {
         event.preventDefault()
 
+        personServices
+            .getAll({ name: newName })
+            .then((people) => {
+                if (people.length === 0) {
+                    create()
+                } else {
+                    update(people[0])
+                }
+            })
+            .catch((error) => {
+                showMessage(
+                    error.response.data.error,
+                    NOTIFICATION_LEVELS.ERROR
+                )
+            })
+    }
+
+    const create = () => {
         const person = {
             name: newName,
             number: newNumber,
@@ -71,18 +89,48 @@ const App = () => {
 
         personServices
             .create(person)
-            .then((createdPerson) => {
-                setPersons(persons.concat(createdPerson))
+            .then((person) => {
+                setPersons(persons.concat(person))
                 setNewName('')
                 setNewNumber('')
-                showMessage(`Added ${person.name}`, NOTIFICATION_LEVELS.success)
+                showMessage(`Added ${person.name}`, NOTIFICATION_LEVELS.SUCCESS)
             })
             .catch((error) => {
                 showMessage(
                     error.response.data.error,
-                    NOTIFICATION_LEVELS.error
+                    NOTIFICATION_LEVELS.ERROR
                 )
             })
+    }
+
+    const update = (person) => {
+        if (
+            window.confirm(
+                `${person.name} is already added to phonebook, replace the old number with a new one?`
+            )
+        ) {
+            person.number = newNumber
+
+            personServices
+                .update(person, person.id)
+                .then((person) => {
+                    setPersons(
+                        persons.map((p) => (p.id !== person.id ? p : person))
+                    )
+                    setNewName('')
+                    setNewNumber('')
+                    showMessage(
+                        `Updated ${person.name}`,
+                        NOTIFICATION_LEVELS.SUCCESS
+                    )
+                })
+                .catch((error) => {
+                    showMessage(
+                        error.response.data.error,
+                        NOTIFICATION_LEVELS.ERROR
+                    )
+                })
+        }
     }
 
     const remove = (id) => {
@@ -95,7 +143,7 @@ const App = () => {
                 .then(() => {})
                 .catch((error) => {
                     const message = `Information of ${personToRemove.name} has already been removed from server`
-                    showMessage(message, NOTIFICATION_LEVELS.error)
+                    showMessage(message, NOTIFICATION_LEVELS.ERROR)
                 })
             setPersons(persons.filter((p) => p.id !== id))
         }
@@ -104,7 +152,7 @@ const App = () => {
     useEffect(() => {
         personServices.getAll().then((persons) => {
             setPersons(persons)
-            showMessage('Application started', NOTIFICATION_LEVELS.info)
+            showMessage('Application started', NOTIFICATION_LEVELS.INFO)
         })
     }, [])
 
@@ -118,7 +166,7 @@ const App = () => {
             <h2>Add a new</h2>
 
             <PersonForm
-                onSubmit={create}
+                onSubmit={createOrUpdate}
                 newName={newName}
                 newNumber={newNumber}
                 handleNewNameChange={handleNewNameChange}

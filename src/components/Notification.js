@@ -1,9 +1,9 @@
 import './Notification.css'
 
 const NOTIFICATION_LEVELS = {
-    success: 'success',
-    error: 'error',
-    info: 'info',
+    SUCCESS: 'success',
+    ERROR: 'error',
+    INFO: 'info',
 }
 
 const Notification = ({ message }) => {
