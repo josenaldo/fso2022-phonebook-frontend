@@ -1,1 +1,1 @@
-export { personServices } from './persons'
+export { personServices } from './people'

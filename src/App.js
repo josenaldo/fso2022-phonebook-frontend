@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 
 import {
     Filter,
     PersonForm,
-    Persons,
+    People,
     Notification,
     NOTIFICATION_LEVELS,
 } from 'components'
@@ -12,20 +12,20 @@ import { personServices } from 'services'
 import './App.css'
 
 const App = () => {
-    const [persons, setPersons] = useState([])
+    const [people, setPeople] = React.useState([])
 
-    const [newName, setNewName] = useState('')
-    const [newNumber, setNewNumber] = useState('')
-    const [search, setSearch] = useState('')
+    const [newName, setNewName] = React.useState('')
+    const [newNumber, setNewNumber] = React.useState('')
+    const [search, setSearch] = React.useState('')
 
-    const [message, setMessage] = useState(null)
-    const [messageTimeout, setMessageTimeout] = useState(null)
+    const [message, setMessage] = React.useState(null)
+    const [messageTimeout, setMessageTimeout] = React.useState(null)
 
-    const personsToShow = search
-        ? persons.filter((person) =>
+    const peopleToShow = search
+        ? people.filter((person) =>
               person.name.toLowerCase().includes(search.toLowerCase())
           )
-        : persons
+        : people
 
     const handleSearchChange = (event) => {
         setSearch(event.target.value)
@@ -90,7 +90,7 @@ const App = () => {
         personServices
             .create(person)
             .then((person) => {
-                setPersons(persons.concat(person))
+                setPeople(people.concat(person))
                 setNewName('')
                 setNewNumber('')
                 showMessage(`Added ${person.name}`, NOTIFICATION_LEVELS.SUCCESS)
@@ -114,8 +114,8 @@ const App = () => {
             personServices
                 .update(person, person.id)
                 .then((person) => {
-                    setPersons(
-                        persons.map((p) => (p.id !== person.id ? p : person))
+                    setPeople(
+                        people.map((p) => (p.id !== person.id ? p : person))
                     )
                     setNewName('')
                     setNewNumber('')
@@ -134,7 +134,7 @@ const App = () => {
     }
 
     const remove = (id) => {
-        const personToRemove = persons.find((p) => p.id === id)
+        const personToRemove = people.find((p) => p.id === id)
         const message = `Delete ${personToRemove.name}?`
 
         if (window.confirm(message)) {
@@ -145,13 +145,13 @@ const App = () => {
                     const message = `Information of ${personToRemove.name} has already been removed from server`
                     showMessage(message, NOTIFICATION_LEVELS.ERROR)
                 })
-            setPersons(persons.filter((p) => p.id !== id))
+            setPeople(people.filter((p) => p.id !== id))
         }
     }
 
-    useEffect(() => {
-        personServices.getAll().then((persons) => {
-            setPersons(persons)
+    React.useEffect(() => {
+        personServices.getAll().then((people) => {
+            setPeople(people)
             showMessage('Application started', NOTIFICATION_LEVELS.INFO)
         })
     }, [])
@@ -174,7 +174,7 @@ const App = () => {
             />
 
             <h2>Numbers</h2>
-            <Persons persons={personsToShow} remove={remove} />
+            <People people={peopleToShow} remove={remove} />
         </div>
     )
 }

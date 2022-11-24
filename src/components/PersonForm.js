@@ -1,3 +1,5 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Input } from 'components'
 import './PersonForm.css'
 
@@ -27,6 +29,14 @@ const PersonForm = ({
             </div>
         </form>
     )
+}
+
+PersonForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    newName: PropTypes.string.isRequired,
+    newNumber: PropTypes.string.isRequired,
+    handleNewNameChange: PropTypes.func.isRequired,
+    handleNewNumberChange: PropTypes.func.isRequired,
 }
 
 export { PersonForm }

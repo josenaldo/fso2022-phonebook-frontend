@@ -1,10 +1,13 @@
-import './Persons.css'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const Persons = ({ persons, remove }) => {
+import './People.css'
+
+const People = ({ people: people, remove }) => {
     return (
         <table cellSpacing="0" cellPadding="0">
             <tbody>
-                {persons.map((person) => (
+                {people.map((person) => (
                     <tr key={person.id}>
                         <td className="person-name">{person.name}</td>
                         <td className="person-number">{person.number}</td>
@@ -20,4 +23,9 @@ const Persons = ({ persons, remove }) => {
     )
 }
 
-export { Persons }
+People.propTypes = {
+    people: PropTypes.array.isRequired,
+    remove: PropTypes.func.isRequired,
+}
+
+export { People }
