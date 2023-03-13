@@ -4,6 +4,43 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Twitter: josenaldomatos](https://img.shields.io/twitter/follow/josenaldomatos.svg?style=social)](https://twitter.com/josenaldomatos)
 
+## Commands
+
+```sh
+## Install
+yarn install
+
+## Runs the app in the production mode
+yarn start
+
+## Runs the app in the development mode
+yarn dev
+
+## Test
+yarn test
+
+## Clean
+yarn clean
+
+## Copy UI to build folder
+yarn copy:ui
+
+## Build UI
+yarn build:ui
+
+## Deploy on fly.io
+yarn deploy
+
+## Build and deploy on fly.io
+yarn deploy:full
+
+## Logs
+yarn logs:prod
+
+## Lint
+yarn lint
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
